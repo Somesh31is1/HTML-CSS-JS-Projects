@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <style>
+    /* ===== Reset & base ===== */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== Main container ===== */
+body > * {
+  transition: all 0.3s ease;
+}
+
+.container {
+  background: #ffffff;
+  padding: 25px 30px;
+  width: 380px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Title ===== */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* ===== Input ===== */
+#enterTask {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+}
+
+#enterTask:focus {
+  border-color: #667eea;
+}
+
+/* ===== Buttons ===== */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+#addTask {
+  background: #667eea;
+  color: #fff;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#addTask:hover {
+  background: #556cd6;
+}
+
+#highlightTask {
+  background: #ff9800;
+  color: white;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#highlightTask:hover {
+  background: #fb8c00;
+}
+
+/* ===== Task count ===== */
+p {
+  margin: 15px 0 10px;
+  font-weight: 500;
+  color: #444;
+}
+
+#count {
+  font-weight: bold;
+  color: #667eea;
+}
+
+/* ===== Task list ===== */
+#taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ===== Individual task ===== */
+.task {
+  background: #f4f6ff;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.task:hover {
+  transform: scale(1.02);
+}
+
+/* ===== Delete button ===== */
+.task button {
+  background: #e53935;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.task button:hover {
+  background: #c62828;
+}
+
+
+  </style>
+</head>
+<body>
+  <div clas="container">
+
+    <h2 id="title">Task Manager</h2>
+    <input type="text" id="enterTask" placeholder="Enter Task">
+    <button id="addTask">Add Task</button>
+    <button id="highlightTask">Highlight Task</button>
+    
+    <p>Total tasks: <span id="count">0</span></p>
+    <ul id="taskList"></ul>
+
+  </div>
+  
+
+  <script>
+    const addBtn = document.getElementById('addTask');
+    const inputTask = document.querySelector('#enterTask');
+    const highlightBtn = document.querySelector('#highlightTask');
+    const taskList = document.getElementById('taskList');
+    const countSpan = document.getElementById('count');
+
+    addBtn.addEventListener("click", function(){
+      const taskText = inputTask.value;
+      if(taskText === "") return;
+      const li = document.createElement("li");
+      const deleteBtn = document.createElement("button");
+      li.className = "task";
+      li.innerText = taskText;
+      deleteBtn.innerText = " X ";
+      deleteBtn.style.margin = "10px";
+      
+      li.appendChild(deleteBtn);
+      taskList.appendChild(li);
+      inputTask.value = "";
+      updateCount();
+
+      deleteBtn.addEventListener("click", function () {
+        taskList.removeChild(li);
+        updateCount();
+      })
+    });
+    
+    highlightBtn.addEventListener("click",function(){
+      console.log("Button Clicked");
+      const tasks = document.querySelectorAll(".task");
+      console.log(tasks);
+      tasks.forEach(task => {
+        task.style.backgroundColor = "blue";
+      })
+    });
+
+    function updateCount(){
+      countSpan.innerText = taskList.children.length;
+
+    }
+
+    
+  </script>
+  
+</body>
+</html>
